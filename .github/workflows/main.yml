@@ -9,12 +9,13 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-      - name: Unzip and Build
+      - name: Fix YAML and Build
         run: |
           unzip -o *.zip
           POM_PATH=$(find . -maxdepth 3 -name "pom.xml" | head -n 1)
           DIR_PATH=$(dirname "$POM_PATH")
           cd "$DIR_PATH"
+          sed -i 's/SparkGuard: античит/SparkGuard - античит/g' src/main/resources/plugin.yml
           mvn clean package
           mkdir -p "$GITHUB_WORKSPACE/output"
           cp target/*.jar "$GITHUB_WORKSPACE/output/"
